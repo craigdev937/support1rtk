@@ -11,5 +11,29 @@ CREATE TABLE IF NOT EXISTS users (
     updated_at TIMESTAMP DEFAULT NOW()
 );
 
+CREATE TABLE IF NOT EXISTS tickets (
+    id UUID PRIMARY KEY DEFAULT uuidv7(),
+    userid INTEGER REFERENCES users(id),
+    CREATE TYPE product AS ENUM ('iPhone', 'iMac', 'Macbook', 'iPad'),
+    description TEXT NOT NULL,
+    CREATE TYPE status AS ENUM ('new', 'open', 'closed') DEFAULT 'new',
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW()
+);
+
+-- Step 1: Create the ENUM types outside the table
+CREATE TYPE product_type AS ENUM ('iPhone', 'iMac', 'Macbook', 'iPad');
+CREATE TYPE status_type AS ENUM ('new', 'open', 'closed');
+
+-- Step 2: Create the table using the types
+CREATE TABLE IF NOT EXISTS tickets (
+    id UUID PRIMARY KEY DEFAULT uuidv7(),
+    userid INTEGER REFERENCES users(id),
+    product product_type,
+    description TEXT NOT NULL,
+    status status_type DEFAULT 'new',
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW()
+);
 
 

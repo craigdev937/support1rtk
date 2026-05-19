@@ -29,7 +29,25 @@ export const LSchema = z.object({
     })
 });
 
-export type RType = z.infer<typeof RSchema>;
-export type LType = z.infer<typeof LSchema>;
+export const TSchema = z.object({
+    userid: z.number().min(1, {
+        message: "The UserID is Required!"
+    }),
+    product: z.string().min(3, {
+        message: "The Product is Required!"
+    }),
+    description: z.string().trim().min(3, {
+        message: "Must be at least Three Characters!"
+    }),
+    status: z.string().min(3, {
+        message: "Please list the Status!"
+    }),
+});
 
+export type RType = z.infer<typeof RSchema>;
+export type TType = z.infer<typeof TSchema>;
+
+// export type LType = z.infer<typeof LSchema>;
+// I don't use LType, I use IUser to 
+// provide all the User Data. 
 

@@ -1,9 +1,4 @@
-export interface JwtPayload {
-    id: number,
-    email: string
-};
-
-export interface IReg {
+export interface IUser {
     id: number,
     first: string,
     last: string,
@@ -14,7 +9,15 @@ export interface IReg {
     updated_at?: string,
 };
 
-
+export interface ITicket {
+    id: string,
+    userid: number,
+    product: string,
+    description: string,
+    status: string,
+    created_at?: string,
+    updated_at?: string,
+};
 
 
 

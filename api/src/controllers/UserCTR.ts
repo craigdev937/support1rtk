@@ -3,9 +3,8 @@ import bcrypt from "bcryptjs";
 import { signToken } from "../middleware/Auth.ts";
 import { dBase } from "../data/Database.ts";
 import { RSchema, LSchema } from "../validation/Schema.ts";
-import type { RType, LType } from "../validation/Schema.ts";
-import type { IReg } from "../models/Interfaces.ts";
-import { success } from "zod";
+import type { RType } from "../validation/Schema.ts";
+import type { IUser } from "../models/Interfaces.ts";
 
 class UserClass {
     Register: express.Handler = async (req, res, next) => {
@@ -23,7 +22,7 @@ class UserClass {
             VALUES ($1, $2, $3, $4, $5) RETURNING *`;
             const values = [R.first, R.last, R.email, 
                 bPASS, R.isAdmin];
-            const newUser = await dBase.query<IReg>(QRY, values);
+            const newUser = await dBase.query<IUser>(QRY, values);
             const newToken = signToken(newUser.rows[0].id);
             res.cookie("token", newToken, {
                 httpOnly: true,
@@ -57,7 +56,7 @@ class UserClass {
     FetchAll: express.Handler = async (req, res, next) => {
         try {
             const QRY = "SELECT * FROM users ORDER BY id ASC";
-            const users = await dBase.query<IReg[]>(QRY);
+            const users = await dBase.query<IUser>(QRY);
             return res
                 .status(201)
                 .json({
@@ -83,7 +82,7 @@ class UserClass {
         try {
             const L = LSchema.parse(req.body);
             const QRY = "SELECT * FROM users WHERE email=$1";
-            const user = await dBase.query<IReg>(QRY, [L.email]);
+            const user = await dBase.query<IUser>(QRY, [L.email]);
             if (user.rows.length === 0) {
                 return res.status(401)
                 .json({msg: "Invalid Credentials!"});
@@ -114,9 +113,7 @@ class UserClass {
                         id: uData.id,
                         first: uData.first,
                         last: uData.last,
-                        email: uData.email,
-                        createdAt: uData.created_at,
-                        updatedAt: uData.updated_at
+                        email: uData.email
                     },
                     token: logToken
                 });
@@ -153,6 +150,33 @@ class UserClass {
                 .json({
                     success: false,
                     message: "Error loggin out the User!",
+                    error: error instanceof Error ?
+                        error.message : "Unknown Error!"
+                });
+            next(error);
+        }
+    };
+
+    Me: express.Handler = async (req, res, next) => {
+        try {
+            res.json({
+                success: true,
+                message: "User Profile Info!",
+                data: {
+                    id: req.user?.id,
+                    first: req.user?.first,
+                    last: req.user?.last,
+                    email: req.user?.email,
+                    createdAt: req.user?.created_at,
+                    updatedAt: req.user?.updated_at
+                }
+            });
+        } catch (error) {
+            res
+                .status(res.statusCode)
+                .json({
+                    success: false,
+                    message: "Error finding the User Profile!",
                     error: error instanceof Error ?
                         error.message : "Unknown Error!"
                 });

@@ -1,7 +1,7 @@
 import express from "express";
 import jwt from "jsonwebtoken";
 import { dBase } from "../data/Database.ts";
-import type { JwtPayload, IReg } from "../models/Interfaces.ts";
+import type { IUser } from "../models/Interfaces.ts";
 const JWT = process.env.JWT_SECRET ?? "";
 
 export const PRO: express.Handler = 
@@ -14,9 +14,9 @@ async (req, res, next) => {
     };
 
     try {
-        const decoded = jwt.verify(token, JWT) as JwtPayload;
+        const decoded = jwt.verify(token, JWT) as IUser;
         const QRY = "SELECT * FROM users WHERE id=$1";
-        const user = await dBase.query<IReg>(QRY, [decoded.id]);
+        const user = await dBase.query<IUser>(QRY, [decoded.id]);
         req.user = user.rows[0];
         next();
     } catch (error) {
