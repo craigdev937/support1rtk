@@ -4,6 +4,7 @@ import { Val } from "../middleware/Validate.ts";
 import { RSchema, LSchema } from "../validation/Schema.ts";
 import { PRO } from "../middleware/Auth.ts";
 
+// Route: localhost:9000/api/
 export const userRt: express.Router = express.Router();
     userRt.post("/users/register", Val(RSchema), USER.Register);
     userRt.post("/users/login", Val(LSchema), USER.Login);

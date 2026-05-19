@@ -13,7 +13,7 @@ class TicketClass {
             VALUES ($1, $2, $3, $4) RETURNING *`;
             const values = [T.userid, T.product, 
                 T.description, T.status];
-            const newTicket = await dBase.query<ITicket>(QRY, values);
+            const newTicket = await dBase.query<TType>(QRY, values);
             return res
                 .status(201)
                 .json({
@@ -37,7 +37,7 @@ class TicketClass {
     FetchAll: express.Handler = async (req, res, next) => {
         try {
             const QRY = "SELECT * FROM tickets ORDER BY id ASC";
-            const tickets = await dBase.query<ITicket[]>(QRY);
+            const tickets = await dBase.query<ITicket>(QRY);
             return res
                 .status(201)
                 .json({
@@ -52,6 +52,32 @@ class TicketClass {
                 .json({
                     success: false,
                     message: "Error creating the Ticket!",
+                    error: error instanceof Error ?
+                        error.message : "Unknown Error!"
+                });
+            next(error);
+        }
+    };
+
+    GetOne: express.Handler = async (req, res, next) => {
+        try {
+            const { id } = req.params;
+            const QRY = `SELECT * FROM tickets WHERE id=$1`;
+            const values = [id];
+            const ticket = await dBase.query<TType>(QRY, values);
+            return res
+                .status(201)
+                .json({
+                    success: true,
+                    message: "Retrieved One Ticket!",
+                    data: ticket.rows[0]
+                });
+        } catch (error) {
+            res
+                .status(res.statusCode)
+                .json({
+                    success: false,
+                    message: "Error getting one Ticket!",
                     error: error instanceof Error ?
                         error.message : "Unknown Error!"
                 });
