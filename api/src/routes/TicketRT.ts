@@ -9,6 +9,6 @@ export const ticketRt: express.Router = express.Router();
     ticketRt.post("/tickets", PRO, Val(TSchema), TICKET.Create);
     ticketRt.get("/tickets", PRO, TICKET.FetchAll);
     ticketRt.get("/tickets/:id", PRO, TICKET.GetOne);
-
+    ticketRt.put("/tickets/:id", PRO, TICKET.Update);
 
 

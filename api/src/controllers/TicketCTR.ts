@@ -84,6 +84,36 @@ class TicketClass {
             next(error);
         }
     };
+
+    Update: express.Handler = async (req, res, next) => {
+        try {
+            const T = TSchema.parse(req.body);
+            const { id } = req.params;
+            const QRY = `UPDATE tickets SET userid=$1, product=$2, 
+            description=$3, status=$4, updated_at=CURRENT_TIMESTAMP
+            WHERE id=$5 RETURNING *`;
+            const values = [T.userid, T.product, 
+                T.description, T.status, id];
+            const ticket = await dBase.query<TType>(QRY, values);
+            return res
+                .status(201)
+                .json({
+                    success: true,
+                    message: "The Ticket was Updated!",
+                    data: ticket.rows[0]
+                });
+        } catch (error) {
+            res
+                .status(res.statusCode)
+                .json({
+                    success: false,
+                    message: "Error Updating a Ticket!",
+                    error: error instanceof Error ?
+                        error.message : "Unknown Error!"
+                });
+            next(error);
+        }
+    };
 };
 
 export const TICKET: TicketClass = new TicketClass();
