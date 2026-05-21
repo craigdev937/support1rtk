@@ -114,6 +114,32 @@ class TicketClass {
             next(error);
         }
     };
+
+    Delete: express.Handler = async (req, res, next) => {
+        try {
+            const { id } = req.params;
+            const QRY = "DELETE FROM tickets WHERE id=$1";
+            const values = [id];
+            const delTic = await dBase.query<TType>(QRY, values);
+            return res
+                .status(201)
+                .json({
+                    success: true,
+                    message: "The Ticket was Deleted!",
+                    data: delTic.rows[0]
+                });
+        } catch (error) {
+            res
+                .status(res.statusCode)
+                .json({
+                    success: false,
+                    message: "Error Deleting a Ticket!",
+                    error: error instanceof Error ?
+                        error.message : "Unknown Error!"
+                });
+            next(error);
+        }
+    };
 };
 
 export const TICKET: TicketClass = new TicketClass();

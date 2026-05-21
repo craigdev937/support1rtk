@@ -10,5 +10,6 @@ export const ticketRt: express.Router = express.Router();
     ticketRt.get("/tickets", PRO, TICKET.FetchAll);
     ticketRt.get("/tickets/:id", PRO, TICKET.GetOne);
     ticketRt.put("/tickets/:id", PRO, TICKET.Update);
+    ticketRt.delete("/tickets/:id", PRO, TICKET.Delete);
 
 
