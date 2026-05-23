@@ -44,8 +44,22 @@ export const TSchema = z.object({
     }),
 });
 
+export const NSchema = z.object({
+    userid: z.number().min(1, {
+        message: "The UserID is Required!"
+    }),
+    ticketid: z.string().min(10, {
+        message: "The TicketID is Required!"
+    }),
+    text: z.string().min(4, {
+        message: "Please add some text!"
+    }),
+    isStaff: z.boolean()
+});
+
 export type RType = z.infer<typeof RSchema>;
 export type TType = z.infer<typeof TSchema>;
+export type NType = z.infer<typeof NSchema>;
 
 // export type LType = z.infer<typeof LSchema>;
 // I don't use LType, I use IUser to 

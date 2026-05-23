@@ -19,5 +19,13 @@ export interface ITicket {
     updated_at?: string,
 };
 
+export interface INote {
+    id: number,
+    userid: number,
+    ticketid: string,
+    text: string,
+    isStaff: boolean
+};
+
 
 
