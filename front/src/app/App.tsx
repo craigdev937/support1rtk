@@ -1,15 +1,11 @@
 import React from "react";
 import "./App.css";
-import Strike from "@public/CBStrike13.jpg";
+import { NavRoutes } from "../routes/NavRoutes";
 
 export const App = () => {
     return (
         <React.Fragment>
-            <h1>C.B. Strike</h1>
-            <img 
-                src={Strike} alt="C.B. Strike" 
-                height={"600px"} width={"auto"}
-            />
+            <NavRoutes />
         </React.Fragment>
     );
 };
