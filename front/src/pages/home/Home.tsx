@@ -1,12 +1,29 @@
 import React from "react";
 import "./Home.css";
+import { Link } from "react-router";
+import { FaQuestionCircle, FaTicketAlt } from "react-icons/fa";
 
 export const Home = () => {
     return (
         <React.Fragment>
             <main>
-                <h1>Home Page</h1>
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iusto libero temporibus id quibusdam inventore dolores ipsam deserunt earum, esse repellendus ab error molestiae provident nihil nostrum numquam veniam. Optio, iusto.</p>
+                <section className="heading">
+                    <h1>What do you need help with?</h1>
+                    <p>Please choose from an option below</p>
+                </section>
+
+                <Link 
+                    to={"/new"}
+                    className="btn btn__reverse btn__block"
+                >
+                    <FaQuestionCircle />Create New Ticket
+                </Link>
+                <Link
+                    to={"/tickets"}
+                    className="btn btn__block"
+                >
+                    <FaTicketAlt />View My Tickets
+                </Link>
             </main>
         </React.Fragment>
     );

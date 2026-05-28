@@ -1,0 +1,12 @@
+.heading {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 50px;
+    padding: 0 20px;
+}
+
+.heading p {
+    color: var(--pink);
+}
+
+
