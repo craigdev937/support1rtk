@@ -39,8 +39,9 @@ main {
     font-weight: 700;
     text-align: center;
     appearance: button;
-    display: grid;
+    display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .btn svg {

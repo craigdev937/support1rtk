@@ -2,7 +2,7 @@
     "watch": ["src"],
     "ignore": ["src/**/*.spec.ts"],
     "ext": "ts, html, css, hbs, json",
-    "exec": "ts-node src/server.ts"
+    "exec": "tsx watch src/server.ts"
 }
 
 
