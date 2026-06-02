@@ -16,5 +16,10 @@ export interface IData {
     data: IUser[]
 };
 
+export interface UserState {
+    user: IUser | null,
+    isAuth: boolean
+};
+
 
 

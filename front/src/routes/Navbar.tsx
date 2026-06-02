@@ -1,6 +1,7 @@
 import React from "react";
 import "./Navbar.css";
 import { Link, Outlet } from "react-router";
+import { FaSignInAlt, FaSignOutAlt, FaUser } from "react-icons/fa";
 
 export const Navbar = () => {
     const [open, setOpen] = React.useState(false);
@@ -53,7 +54,7 @@ export const Navbar = () => {
                                 className="nav__links"
                                 onClick={closeMenu}
                             >
-                                Register
+                                <FaUser />Register
                             </Link>
                         </li>
                         <li className="nav__item">
@@ -62,7 +63,7 @@ export const Navbar = () => {
                                 className="nav__links"
                                 onClick={closeMenu}
                             >
-                                Login
+                                <FaSignInAlt />Login
                             </Link>
                         </li>
                     </menu>
